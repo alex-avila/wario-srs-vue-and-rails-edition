@@ -3,18 +3,24 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const baseUrl = '/api/v1/decks/'
+const baseUrl = '/api/v1/decks'
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content
 
 const store = new Vuex.Store({
   state: {
-    decks: []
+    decks: [],
+    activeDeck: {}
   },
 
   mutations: {
     setDecks: (state, decks) => (state.decks = decks),
 
-    setNewDeck: (state, deck) => (state.decks = [...state.decks, deck])
+    setActiveDeck: (state, deck) => (state.activeDeck = deck),
+
+    setNewDeck: (state, deck) => (state.decks = [...state.decks, deck]),
+
+    removeDeck: (state, id) =>
+      (state.decks = state.decks.filter(deck => deck.id !== id))
   },
 
   actions: {
@@ -25,6 +31,11 @@ const store = new Vuex.Store({
       } catch (e) {
         console.error(e)
       }
+    },
+
+    getDeck: async ({ commit }, id) => {
+      const deck = await (await fetch(`${baseUrl}/${id}`)).json()
+      commit('setActiveDeck', deck)
     },
 
     addDeck: async ({ commit }, body) => {
@@ -39,6 +50,25 @@ const store = new Vuex.Store({
         })).json()
 
         commit('setNewDeck', deck)
+      } catch (e) {
+        console.error(e)
+      }
+    },
+
+    deleteDeck: async ({ commit }, { id, successCallback }) => {
+      try {
+        console.log(`${baseUrl}/${id}`)
+        await fetch(`${baseUrl}/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-Token': csrfToken,
+            'Content-Type': 'application/json'
+          }
+        })
+
+        commit('removeDeck', id)
+
+        successCallback()
       } catch (e) {
         console.error(e)
       }
