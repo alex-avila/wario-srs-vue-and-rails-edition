@@ -1,11 +1,11 @@
 <template>
-  <a :href="deck.id" class="deck-item">
+  <router-link :to="`/decks/${deck.id}`" class="deck-item">
     <div class="deck-item__wrapper">
       <div :id="deck.id">
         <h3>{{ deck.name }}</h3>
       </div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .deck-item {
   display: block;
   border: 1px solid #d8d8d8;
