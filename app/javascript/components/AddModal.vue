@@ -1,5 +1,9 @@
 <template>
-  <div id="background" :class="modalClasses" @click="$emit('handleHideModal')">
+  <div
+    id="background"
+    :class="modalClasses"
+    @click="$emit('handle-hide-modal', $event)"
+  >
     <div class="add-deck-modal__wrapper">
       <input
         v-model="inputs.valOne"

@@ -4,7 +4,7 @@
     <AddModal
       :is-modal-on="isAddModalOn"
       :is-new-deck="$route.path === '/dashboard'"
-      @handle-hide-modal="isAddModalOn = false"
+      @handle-hide-modal="handleHideModal"
     />
     <router-view />
   </div>
@@ -19,7 +19,15 @@ export default {
 
   data: () => ({
     isAddModalOn: false
-  })
+  }),
+
+  methods: {
+    handleHideModal(e) {
+      if (!e || e.target.id === "background") {
+        this.isAddModalOn = false;
+      }
+    }
+  }
 };
 </script>
 
