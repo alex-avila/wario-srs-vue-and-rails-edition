@@ -1,20 +1,48 @@
 <template>
   <div id="app">
-    <p>{{ message }}</p>
+    <Navbar @handle-show-modal="isAddModalOn = true" />
+    <AddModal
+      :is-modal-on="isAddModalOn"
+      :is-new-deck="$route.path === '/dashboard'"
+      @handle-hide-modal="isAddModalOn = false"
+    />
+    <router-view />
   </div>
 </template>
 
 <script>
+import Navbar from "./components/Navbar";
+import AddModal from "./components/AddModal";
+
 export default {
+  components: { Navbar, AddModal },
+
   data: () => ({
-    message: "Hello Vue!"
+    isAddModalOn: false
   })
 };
 </script>
 
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.wrapper {
+  margin: 0;
+  font-family: "Helvetica Neue";
+  color: #111;
+  height: 100%;
+  line-height: 1.618;
+  background: #f0f0f0;
+}
+
+.utility-wrapper {
+  padding: 0 1rem;
+  max-width: 800px;
+  margin: auto;
 }
 </style>
