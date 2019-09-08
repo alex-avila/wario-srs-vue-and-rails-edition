@@ -9,7 +9,7 @@
       <p>{{ deck.description }}</p>
       <!-- <p>{{ deck.cards.length }} cards in total.</p> -->
       <!-- <Dashboard :deck="deck" /> -->
-      <!-- <router-link
+      <router-link
         :to="{
           path: `${this.$route.path}/review-session`,
           params: {
@@ -18,7 +18,7 @@
         }"
       >
         <Button rounded>STUDY NOW</Button>
-      </router-link> -->
+      </router-link>
     </div>
   </div>
 </template>
@@ -41,13 +41,13 @@ export default {
 
   computed: {
     deck() {
-      return this.$store.state.activeDeck;
+      return this.$store.state.decks.activeDeck;
     }
   },
 
   mounted() {
     console.log(this.$route);
-    this.$store.dispatch("getDeck", this.$route.params.id);
+    this.$store.dispatch("decks/getDeck", this.$route.params.id);
   },
 
   methods: {
@@ -60,7 +60,7 @@ export default {
     },
 
     handleDelete() {
-      this.$store.dispatch("deleteDeck", {
+      this.$store.dispatch("decks/deleteDeck", {
         id: this.$route.params.id,
         successCallback: () => this.$router.push("/")
       });

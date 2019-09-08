@@ -15,12 +15,12 @@ export default {
 
   computed: {
     decks() {
-      return this.$store.state.decks;
+      return this.$store.state.decks.decks;
     }
   },
 
   mounted() {
-    this.$store.dispatch("getDecks");
+    this.$store.dispatch("decks/getDecks");
   }
 };
 </script>

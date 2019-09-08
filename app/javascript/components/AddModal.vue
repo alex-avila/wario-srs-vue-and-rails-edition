@@ -80,7 +80,7 @@ export default {
           name: valOne,
           description: valTwo
         };
-        this.$store.dispatch("addDeck", body);
+        this.$store.dispatch("decks/addDeck", body);
         this.$emit("handle-hide-modal");
       } else {
         const deckId = this.props.deckId.slice(1);
