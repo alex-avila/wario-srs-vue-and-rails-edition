@@ -6,6 +6,11 @@
       </router-link>
       <div class="nav__actions">
         <div class="nav__action" @click="$emit('handle-show-modal')">
+          <img
+            className="add-icon"
+            src="../../assets/images/add.svg"
+            alt="Add icon."
+          />
           NEW
         </div>
       </div>
