@@ -21,6 +21,11 @@ class Api::V1::DecksController < ApplicationController
     end
   end
 
+  def destroy
+    deck = Deck.find(params[:id])
+    deck.destroy
+  end
+
   private
     def deck_params
       params.require(:deck).permit(:name, :description)
