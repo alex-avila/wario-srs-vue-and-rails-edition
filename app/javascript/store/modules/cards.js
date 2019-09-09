@@ -39,16 +39,24 @@ const actions = {
     }
   },
 
-  updateCard: async ({ commit }, { deckId, cardId, srsState }) => {
+  updateCard: async ({ commit }, { deckId, cardId, quality }) => {
     const card = await (await fetch(`${baseUrl}/${deckId}/cards`, {
       method: 'PUT',
       headers: {
         'X-CSRF-Token': csrfToken,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ srs_stage: srsStage })
+      body: JSON.stringify({ quality })
     })).json()
   }
 }
 
-export default { namespaced: true, state, mutations, actions }
+const getters = {
+  cardsAvailableNow: state => {
+    return state.cards.filter(
+      card => !card.available_at || new Date(card.available_at) >= new Date()
+    )
+  }
+}
+
+export default { namespaced: true, state, mutations, actions, getters }

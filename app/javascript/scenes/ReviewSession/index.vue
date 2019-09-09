@@ -29,7 +29,7 @@
 import QualityGetter from "./QualityGetter";
 import Card from "./Card";
 import ReviewProgress from "./ReviewProgress";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -50,13 +50,9 @@ export default {
   computed: {
     ...mapState("decks", ["activeDeck"]),
 
-    cardsAvailableNow() {
-      return this.activeDeck.cards.filter(
-        card =>
-          !card.available_at ||
-          new Date(card.available_at) >= new Date(Date.now)
-      );
-    },
+    ...mapState("cards", ["cards"]),
+
+    ...mapGetters("cards", ["cardsAvailableNow"]),
 
     card() {
       return this.cardsAvailableNow[this.currentIndex];
@@ -68,8 +64,10 @@ export default {
       this.initialCardsNum = this.cardsAvailableNow.length;
     } else {
       await this.$store.dispatch("decks/getDeck", this.$route.params.id);
-      this.hasFinishedSetup = true;
+      await this.$store.dispatch("cards/getCards", this.$route.params.id);
     }
+
+    this.hasFinishedSetup = true;
   },
 
   methods: {
@@ -85,8 +83,7 @@ export default {
         this.isCardFlipped = false;
         this.wasAnswerRevealed = false;
 
-        const srsStage = this.card.srs_stage + 1;
-        this.$store.dispatch("decks/updateCard", { deckId, cardId, srsState });
+        this.$store.dispatch("decks/updateCard", { deckId, cardId, quality });
       } else {
         if (this.currentIndex + 1 <= len - 1) {
           this.currentIndex += 1;
