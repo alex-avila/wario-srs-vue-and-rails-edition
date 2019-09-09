@@ -4,7 +4,7 @@
       <Button
         v-for="quality in 5"
         :key="quality"
-        @click="$emit('handle-q-res', { len, cardId, quality })"
+        @click="$emit('handle-q-res', quality)"
       >
         {{ quality }}
       </Button>
@@ -22,16 +22,6 @@ export default {
   props: {
     wasAnswerRevealed: {
       type: Boolean,
-      required: true
-    },
-
-    len: {
-      type: Number,
-      required: true
-    },
-
-    cardId: {
-      type: Number,
       required: true
     }
   },

@@ -9,11 +9,9 @@
     <div v-if="card" class="review__status-and-controls">
       <ReviewProgress
         class="progresss"
-        :percentage="(currentCardsNum / initialCardsNum) * 100"
+        :percentage="(currentCardsPassedNum / initialCardsNum) * 100"
       />
       <QualityGetter
-        :len="this.cardsAvailableNow.length"
-        :card-id="card.id"
         :was-answer-revealed="wasAnswerRevealed"
         @handle-q-res="handleQualityResponse"
         @handle-flip="handleFlip"
@@ -44,7 +42,7 @@ export default {
     isCardFlipped: false,
     wasAnswerRevealed: false,
     initialCardsNum: 0, // This will be used to get percentage
-    currentCardsNum: 0 // This will be used to get percentage
+    currentCardsPassedNum: 0 // This will be used to get percentage
   }),
 
   computed: {
@@ -71,26 +69,24 @@ export default {
   },
 
   methods: {
-    handleQualityResponse({ len, cardId, quality }) {
-      // Handles what happens when a certain quality is given so that it does not break
-      const deckId = this.$route.params.id;
-
+    handleQualityResponse(quality) {
       this.$store.dispatch("cards/updateCard", {
-        deckId,
+        deckId: this.$route.params.id,
         card: this.card,
         quality
       });
 
+      // Handles what happens when a certain quality is given
       if (quality > 3) {
-        this.currentCardsNum = this.currentCardsNum + 1;
-        if (this.currentIndex + 1 >= len - 1) {
+        this.currentCardsPassedNum++;
+        if (this.currentIndex + 1 >= this.cardsAvailableNow.length - 1) {
           this.currentIndex = 0;
         }
         this.isCardFlipped = false;
         this.wasAnswerRevealed = false;
       } else {
-        if (this.currentIndex + 1 <= len - 1) {
-          this.currentIndex += 1;
+        if (this.currentIndex + 1 <= this.cardsAvailableNow.length - 1) {
+          this.currentIndex++;
           this.isCardFlipped = false;
           this.wasAnswerRevealed = false;
         } else {
