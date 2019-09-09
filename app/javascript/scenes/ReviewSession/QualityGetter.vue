@@ -4,7 +4,7 @@
       <Button
         v-for="quality in 5"
         :key="quality"
-        @click="$emit('handle-q-res', { len, cardId: id, quality: 1 })"
+        @click="$emit('handle-q-res', { len, cardId, quality })"
       >
         {{ quality }}
       </Button>
@@ -26,6 +26,11 @@ export default {
     },
 
     len: {
+      type: Number,
+      required: true
+    },
+
+    cardId: {
       type: Number,
       required: true
     }

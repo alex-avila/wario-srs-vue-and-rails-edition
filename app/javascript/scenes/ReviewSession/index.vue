@@ -13,7 +13,7 @@
       />
       <QualityGetter
         :len="this.cardsAvailableNow.length"
-        :id="card.id"
+        :card-id="card.id"
         :was-answer-revealed="wasAnswerRevealed"
         @handle-q-res="handleQualityResponse"
         @handle-flip="handleFlip"
@@ -73,7 +73,13 @@ export default {
   methods: {
     handleQualityResponse({ len, cardId, quality }) {
       // Handles what happens when a certain quality is given so that it does not break
-      const { deckId } = this.$route.params.id;
+      const deckId = this.$route.params.id;
+
+      this.$store.dispatch("cards/updateCard", {
+        deckId,
+        card: this.card,
+        quality
+      });
 
       if (quality > 3) {
         this.currentCardsNum = this.currentCardsNum + 1;
@@ -82,8 +88,6 @@ export default {
         }
         this.isCardFlipped = false;
         this.wasAnswerRevealed = false;
-
-        this.$store.dispatch("decks/updateCard", { deckId, cardId, quality });
       } else {
         if (this.currentIndex + 1 <= len - 1) {
           this.currentIndex += 1;
