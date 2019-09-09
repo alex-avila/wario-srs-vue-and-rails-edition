@@ -7,8 +7,8 @@
         @handle-delete="handleDelete"
       />
       <p>{{ deck.description }}</p>
-      <!-- <p>{{ deck.cards.length }} cards in total.</p> -->
-      <!-- <Dashboard :deck="deck" /> -->
+      <p>{{ deck.cards.length }} cards in total.</p>
+      <Dashboard :deck="deck" />
       <router-link
         :to="{
           path: `${this.$route.path}/review-session`,
@@ -26,12 +26,13 @@
 <script>
 import TitleBar from "./TitleBar";
 import Button from "../../components/Button";
-// import Dashboard from "../../components/Dashboard";
+import Dashboard from "../../components/Dashboard";
 
 export default {
   components: {
     TitleBar,
-    Button
+    Button,
+    Dashboard
   },
 
   data: () => ({
