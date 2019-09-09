@@ -1,7 +1,27 @@
 const baseUrl = '/api/v1/decks'
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content
 
+const state = {
+  cards: []
+}
+
+const mutations = {
+  setCards: (state, cards) => {
+    state.cards = cards
+  },
+
+  setNewCard: (state, card) => {
+    state.cards = [...state.cards, card]
+  }
+}
+
 const actions = {
+  getCards: async ({ commit }, deckId) => {
+    const cards = await (await fetch(`${baseUrl}/${deckId}/cards`)).json()
+
+    commit('setCards', cards)
+  },
+
   createCard: async ({ commit }, { deckId, body }) => {
     try {
       const card = await (await fetch(`${baseUrl}/${deckId}/cards`, {
@@ -13,9 +33,7 @@ const actions = {
         body: JSON.stringify(body)
       })).json()
 
-      console.log(card)
-
-      // commit('setNewCard', deck)
+      commit('setNewCard', card)
     } catch (e) {
       console.error(e)
     }
@@ -33,4 +51,4 @@ const actions = {
   }
 }
 
-export default { namespaced: true, actions }
+export default { namespaced: true, state, mutations, actions }

@@ -7,7 +7,7 @@
         @handle-delete="handleDelete"
       />
       <p>{{ deck.description }}</p>
-      <p>{{ deck.cards.length }} cards in total.</p>
+      <p>{{ cards.length }} cards in total.</p>
       <Dashboard :deck="deck" />
       <router-link
         :to="{
@@ -27,6 +27,7 @@
 import TitleBar from "./TitleBar";
 import Button from "../../components/Button";
 import Dashboard from "../../components/Dashboard";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -41,13 +42,14 @@ export default {
   }),
 
   computed: {
-    deck() {
-      return this.$store.state.decks.activeDeck;
-    }
+    ...mapState("decks", { deck: state => state.activeDeck }),
+
+    ...mapState("cards", ["cards"])
   },
 
   mounted() {
     this.$store.dispatch("decks/getDeck", this.$route.params.id);
+    this.$store.dispatch("cards/getCards", this.$route.params.id);
   },
 
   methods: {
