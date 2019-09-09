@@ -24,26 +24,21 @@
 
 <script>
 import ProgressBar from "./ProgressBar";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: { ProgressBar },
 
-  props: {
-    deck: {
-      type: Object,
-      required: true
-    }
-  },
-
   computed: {
+    ...mapState("cards", ["cards"]),
+
     ...mapGetters("cards", ["nextReviewDate", "cardsAvailableNow"]),
 
     percentage() {
-      if (this.deck.cards.length) {
-        const cardsSeenNum = this.deck.cards.filter(card => card.has_been_seen)
+      if (this.cards.length) {
+        const cardsSeenNum = this.cards.filter(card => card.has_been_seen)
           .length;
-        return (cardsSeenNum / this.deck.cards.length) * 100;
+        return (cardsSeenNum / this.cards.length) * 100;
       }
 
       return 100;

@@ -12,7 +12,7 @@
       />
       <p>{{ deck.description }}</p>
       <p>{{ cards.length }} cards in total.</p>
-      <Dashboard :deck="deck" />
+      <Dashboard />
       <router-link
         :to="{
           path: `${this.$route.path}/review-session`,
