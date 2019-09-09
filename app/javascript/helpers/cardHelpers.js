@@ -1,11 +1,13 @@
 import { calcEF, calcInterval } from './supermemo2'
 
 const getNewDate = (availableDate, interval) => {
-  let date = new Date(availableDate)
-  if (date < Date.now()) {
-    date = new Date(Date.now())
+  let date = availableDate ? new Date(availableDate) : new Date()
+
+  if (date < new Date()) {
+    date = new Date()
   }
   date.setUTCDate(date.getUTCDate() + interval)
+
   return date
 }
 
