@@ -5,7 +5,7 @@ class CreateCards < ActiveRecord::Migration[6.0]
       t.string :back
       t.references :deck, null: false, foreign_key: true
       t.text :available_at
-      t.integer :srs_stage, default: 0
+      t.integer :srs_stage, default: 1
       t.boolean :has_been_seen, default: false
       t.float :e_factor, default: 1.3
 

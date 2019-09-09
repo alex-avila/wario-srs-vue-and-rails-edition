@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2019_09_07_230253) do
     t.string "back"
     t.integer "deck_id", null: false
     t.text "available_at"
-    t.integer "srs_stage", default: 0
+    t.integer "srs_stage", default: 1
     t.boolean "has_been_seen", default: false
     t.float "e_factor", default: 1.3
     t.datetime "created_at", precision: 6, null: false
