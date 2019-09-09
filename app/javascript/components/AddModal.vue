@@ -8,7 +8,7 @@
       <input
         v-model="inputs.valOne"
         type="text"
-        :placeholder="isNewDeck ? 'Name' : 'Question'"
+        :placeholder="isNewDeck ? 'Name' : 'Front'"
         autocomplete="off"
       />
       <textarea
@@ -22,7 +22,7 @@
         v-else
         v-model="inputs.valTwo"
         type="text"
-        placeholder="Answer"
+        placeholder="Back"
         autocomplete="off"
       />
       <Button rounded @click="handleAdd">
