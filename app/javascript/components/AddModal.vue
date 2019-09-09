@@ -72,7 +72,6 @@ export default {
 
   methods: {
     handleAdd() {
-      console.log("handleAdd");
       // if isNewDeck we're in ADD DECK mode else we're in ADD CARD mode
       const { valOne, valTwo } = this.inputs;
       if (this.isNewDeck) {

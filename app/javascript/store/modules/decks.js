@@ -51,7 +51,6 @@ const actions = {
 
   deleteDeck: async ({ commit }, { id, successCallback }) => {
     try {
-      console.log(`${baseUrl}/${id}`)
       await fetch(`${baseUrl}/${id}`, {
         method: 'DELETE',
         headers: {

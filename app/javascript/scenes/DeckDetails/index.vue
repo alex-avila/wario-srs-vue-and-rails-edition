@@ -47,7 +47,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route);
     this.$store.dispatch("decks/getDeck", this.$route.params.id);
   },
 
