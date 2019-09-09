@@ -83,13 +83,11 @@ export default {
         this.$store.dispatch("decks/addDeck", body);
         this.$emit("handle-hide-modal");
       } else {
-        const deckId = this.props.deckId.slice(1);
-        // id, new card, and true means that it was added manually
-        this.addCard(
+        const deckId = this.$route.params.id;
+        this.$store.dispatch("cards/createCard", {
           deckId,
-          { cards: [{ question: valOne, answer: valTwo }] },
-          true
-        );
+          body: { front: valOne, back: valTwo }
+        });
       }
 
       this.inputs = {
