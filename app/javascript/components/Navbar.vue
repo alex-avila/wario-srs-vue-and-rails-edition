@@ -2,7 +2,7 @@
   <nav class="header__nav">
     <div class="nav__wrapper utility-wrapper">
       <router-link to="/" class="nav__to-home">
-        <div class="nav__logo">Flashcards: w/Vue on Rails</div>
+        <div class="nav__logo">WARIO SRS: Vue & Rails Edition</div>
       </router-link>
       <div class="nav__actions">
         <div class="nav__action" @click="$emit('handle-show-modal')">
