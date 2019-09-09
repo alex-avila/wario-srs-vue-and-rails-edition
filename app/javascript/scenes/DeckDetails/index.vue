@@ -1,5 +1,9 @@
 <template>
-  <div class="deck-details utility-wrapper" @click="handleToggleDropdown">
+  <div
+    v-if="hasFinishedSetup"
+    class="deck-details utility-wrapper"
+    @click="handleToggleDropdown"
+  >
     <div v-if="!!Object.keys(deck).length" class="deck-details__wrapper">
       <TitleBar
         :deck-name="deck.name"
@@ -37,6 +41,7 @@ export default {
   },
 
   data: () => ({
+    hasFinishedSetup: false,
     isDropdownOn: false,
     wasDeleted: false
   }),
@@ -47,9 +52,10 @@ export default {
     ...mapState("cards", ["cards"])
   },
 
-  mounted() {
-    this.$store.dispatch("decks/getDeck", this.$route.params.id);
-    this.$store.dispatch("cards/getCards", this.$route.params.id);
+  async mounted() {
+    await this.$store.dispatch("decks/getDeck", this.$route.params.id);
+    await this.$store.dispatch("cards/getCards", this.$route.params.id);
+    this.hasFinishedSetup = true;
   },
 
   methods: {
