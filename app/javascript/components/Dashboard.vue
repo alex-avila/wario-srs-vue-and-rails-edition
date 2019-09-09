@@ -1,20 +1,20 @@
 <template>
   <div class="dashboard">
     <h3>Dashboard</h3>
-    <!-- <div class="dashboard__wrapper">
-      <div>
+    <div class="dashboard__wrapper">
+      <!-- <div>
         <span>{{ nextReviewDate }}</span>
         <p>Next Review</p>
-      </div>
+      </div> -->
       <div>
-        <span>{{ availableNowNum }}</span>
+        <span>{{ cardsAvailableNow.length }}</span>
         <p>Available Now</p>
       </div>
-      <div>
-        <span>{{ availableTomorrowNum }}</span>
+      <!-- <div>
+        <span>{{ cardsAvailableTomorrow }}</span>
         <p>Next Day</p>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
     <h4>
       Percentage of cards seen <small>( {{ percentageText }}% )</small>
     </h4>
@@ -24,6 +24,7 @@
 
 <script>
 import ProgressBar from "./ProgressBar";
+import { mapGetters } from "vuex";
 
 export default {
   components: { ProgressBar },
@@ -36,11 +37,7 @@ export default {
   },
 
   computed: {
-    nextReviewDate() {},
-
-    availableNowDate() {},
-
-    availableTomorrowDate() {},
+    ...mapGetters("cards", ["nextReviewDate", "cardsAvailableNow"]),
 
     percentage() {
       if (this.deck.cards.length) {
