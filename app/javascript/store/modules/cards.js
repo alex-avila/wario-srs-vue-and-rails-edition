@@ -1,3 +1,5 @@
+import { getIntervalAndEF, getDateAndSrsStage } from '../../helpers/cardHelpers'
+
 const baseUrl = '/api/v1/decks'
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content
 
@@ -12,6 +14,12 @@ const mutations = {
 
   setNewCard: (state, card) => {
     state.cards = [...state.cards, card]
+  },
+
+  setUpdatedCard: (state, updatedCard) => {
+    state.cards = state.cards.map(card =>
+      updatedCard.id === card.id ? updatedCard : card
+    )
   }
 }
 
@@ -39,15 +47,43 @@ const actions = {
     }
   },
 
-  updateCard: async ({ commit }, { deckId, cardId, quality }) => {
-    const card = await (await fetch(`${baseUrl}/${deckId}/cards`, {
-      method: 'PUT',
-      headers: {
-        'X-CSRF-Token': csrfToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ quality })
-    })).json()
+  updateCard: async ({ commit }, { deckId, card, quality }) => {
+    try {
+      const [eFactor, interval] = getIntervalAndEF(
+        quality,
+        card.eFactor,
+        card.srsStage
+      )
+      const [availableDate, srsStage] = getDateAndSrsStage(
+        quality,
+        card.srs_stage,
+        card.available_at,
+        interval
+      )
+
+      const body = {
+        e_factor: eFactor,
+        srs_stage: srsStage,
+        available_at: availableDate,
+        has_been_seen: true
+      }
+
+      const updatedCard = await (await fetch(
+        `${baseUrl}/${deckId}/cards/${card.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'X-CSRF-Token': csrfToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        }
+      )).json()
+
+      commit('setUpdatedCard', updatedCard)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 
