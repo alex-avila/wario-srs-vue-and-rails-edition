@@ -1,6 +1,7 @@
 class Api::V1::CardsController < ApplicationController
   def index
-    cards = Card.all
+    deck = Deck.find(params[:deck_id])
+    cards = deck.cards.all
 
     render json: cards
   end
