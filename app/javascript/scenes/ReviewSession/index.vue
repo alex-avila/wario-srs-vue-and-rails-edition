@@ -65,7 +65,7 @@ export default {
 
   async mounted() {
     if (Object.keys(this.activeDeck).length) {
-      this.initialCardsNum = this.activeDeck.inQueue.len;
+      this.initialCardsNum = this.cardsAvailableNow.length;
     } else {
       await this.$store.dispatch("decks/getDeck", this.$route.params.id);
       this.hasFinishedSetup = true;
