@@ -2,7 +2,7 @@
   <div class="review-progress-bar">
     <div class="progress-bar__wrapper">
       <div
-        :style="{ width: `${percentage}%`, height: 10 }"
+        :style="{ width: `${percentage}%`, height: '100%' }"
         class="progress-bar__progression"
       />
     </div>
