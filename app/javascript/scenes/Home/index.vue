@@ -9,14 +9,13 @@
 
 <script>
 import Deck from "./Deck";
+import { mapState } from "vuex";
 
 export default {
   components: { Deck },
 
   computed: {
-    decks() {
-      return this.$store.state.decks.decks;
-    }
+    ...mapState("decks", ["decks"])
   },
 
   mounted() {
