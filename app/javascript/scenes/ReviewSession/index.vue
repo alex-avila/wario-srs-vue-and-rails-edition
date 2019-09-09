@@ -6,6 +6,7 @@
       :is-card-flipped="isCardFlipped"
       @handle-flip="handleFlip"
     />
+
     <div v-if="card" class="review__status-and-controls">
       <ReviewProgress
         class="progresss"
@@ -17,6 +18,7 @@
         @handle-flip="handleFlip"
       />
     </div>
+
     <div v-else class="utility-wrapper">
       <h1>Finished review.</h1>
     </div>
