@@ -1,4 +1,5 @@
 import { getIntervalAndEF, getDateAndSrsStage } from '../../helpers/cardHelpers'
+import moment from 'moment'
 
 const baseUrl = '/api/v1/decks'
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content
@@ -51,8 +52,8 @@ const actions = {
     try {
       const [eFactor, interval] = getIntervalAndEF(
         quality,
-        card.eFactor,
-        card.srsStage
+        card.e_factor,
+        card.srs_stage
       )
       const [availableDate, srsStage] = getDateAndSrsStage(
         quality,
@@ -90,8 +91,36 @@ const actions = {
 const getters = {
   cardsAvailableNow: state => {
     return state.cards.filter(
-      card => !card.available_at || new Date(card.available_at) >= new Date()
+      card => !card.available_at || new Date(card.available_at) <= new Date()
     )
+  },
+
+  nextReviewDate: (state, getters) => {
+    if (getters.cardsAvailableNow.length) {
+      return 'now'
+    }
+
+    if (state.cards.length) {
+      const sortedCards = state.cards.sort((a, b) => {
+        return new Date(a.available_at) - new Date(b.available_at)
+      })
+
+      return moment(
+        new Date(sortedCards[0].available_at).toUTCString()
+      ).fromNow()
+    }
+
+    return 'never'
+  },
+
+  cardsAvailableTomorrowNum: (state, getters) => {
+    const now = new Date()
+    return state.cards
+      .filter(card => !getters.cardsAvailableNow.includes(card))
+      .filter(
+        card =>
+          now.getUTCDate() + 1 === new Date(card.available_at).getUTCDate()
+      ).length
   }
 }
 
