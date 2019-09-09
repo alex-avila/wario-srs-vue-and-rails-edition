@@ -17,8 +17,9 @@ ActiveRecord::Schema.define(version: 2019_09_07_230253) do
     t.string "back"
     t.integer "deck_id", null: false
     t.text "available_at"
-    t.integer "srs_stage"
-    t.boolean "has_been_seen"
+    t.integer "srs_stage", default: 0
+    t.boolean "has_been_seen", default: false
+    t.float "e_factor", default: 1.3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["deck_id"], name: "index_cards_on_deck_id"
