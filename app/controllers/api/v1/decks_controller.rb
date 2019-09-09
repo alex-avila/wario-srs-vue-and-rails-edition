@@ -7,8 +7,16 @@ class Api::V1::DecksController < ApplicationController
 
   def show
     deck = Deck.find(params[:id])
+    cards = deck.cards.all
 
-    render json: deck
+    deckAttributes = deck.attributes.map { |key, value| [key.to_sym, value] }.to_h
+
+    deckWithCards = {
+      **deckAttributes,
+      cards: deck.cards.all
+    }
+
+    render json: deckWithCards
   end
 
   def create
